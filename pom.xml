@@ -31,7 +31,7 @@
     <!-- project meta information -->
     <name>LightJason AgentSpeak(L++) - Bool Action</name>
     <description>AgentSpeak(L++) action for bool structure</description>
-    <url>https://github.com/LightJason/AgentSpeak</url>
+    <url>https://github.com/LightJason/Java-Action-Bool</url>
     
     <organization>
         <name>LightJason</name>
@@ -47,13 +47,13 @@
     
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>https://github.com/LightJason/Action-Bool/issues</url>
+        <url>https://github.com/LightJason/Java-Action-Bool/issues</url>
     </issueManagement>
     
     <scm>
-        <url>https://github.com/LightJason/Action-Bool</url>
-        <connection>scm:git:git://github.com:LightJason/Action-Bool.git</connection>
-        <developerConnection>scm:git:git@github.com:LightJason/Action-Bool.git</developerConnection>
+        <url>https://github.com/LightJason/Java-Action-Bool</url>
+        <connection>scm:git:git://github.com:LightJason/Java-Action-Bool.git</connection>
+        <developerConnection>scm:git:git@github.com:LightJason/Java-Action-Bool.git</developerConnection>
         <tag>v0.0.1</tag>
     </scm>
     
