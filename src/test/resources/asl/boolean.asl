@@ -41,5 +41,5 @@
     .test/result( .bool/or( true, false, false ), "bool-or has been failed" );
     .test/result( .bool/xor( true, false, true, false ), "bool-xor has been failed" );
 
-    .generic/print("bool executed completly")
+    .test/print("bool executed completly")
 .
