@@ -31,15 +31,10 @@ import javax.annotation.Nonnull;
 
 /**
  * checks elements of inequality.
- * The actions checks the first argument
- * to all others arguments of unequality,
- * list structures won't be unflaten, but
- * elementwise compared.
- * On number arguments not the value must equal, also
- * the type (double / integral) must be equal, so keep
- * in mind, that you use the correct number type on the argument input
+ * The actions checks pairwise arguments
+ * and returns the inequality boolean values
  *
- * {@code [NE1|NE2] = .bool/notequal( "this is equal", "this is equal", [123, "test"] );}
+ * {@code [NE1|NE2] = .bool/notequal( "this is equal", "this is equal", ["test"], [123, "test"] );}
  */
 public final class CNotEqual extends IBaseEqualiy
 {

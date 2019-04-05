@@ -30,14 +30,10 @@ import javax.annotation.Nonnull;
 
 /**
  * checks elements of equality.
- * The actions checks the first argument
- * to all others arguments of equality,
- * list structures won't be unflaten, but
- * elementwise compared.
- * On number arguments not the value must equal, also the type (double / integral) must be equal,
- * so keep in mind, that you use the correct number type on the argument input
+ * The actions checks pairwise arguments
+ * and returns the equality boolean values
  *
- * {@code [E1|E2] = .bool/equal( "this is equal", "this is equal", [123, "test"] );}
+ * {@code [E1|E2] = .bool/equal( "this is equal", "this is equal", [123], [123, "test"] );}
  */
 public final class CEqual extends IBaseEqualiy
 {

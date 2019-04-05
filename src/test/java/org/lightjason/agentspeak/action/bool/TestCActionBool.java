@@ -188,7 +188,7 @@ public final class TestCActionBool extends IBaseTest
 
         new CEqual().execute(
             false, IContext.EMPTYPLAN,
-            Stream.of( l_return, l_return, new Object() ).map( CRawTerm::of ).collect( Collectors.toList() ),
+            Stream.of( l_return, l_return, l_return, new Object() ).map( CRawTerm::of ).collect( Collectors.toList() ),
             l_return
         );
 
@@ -236,7 +236,7 @@ public final class TestCActionBool extends IBaseTest
 
         new CNotEqual().execute(
             false, IContext.EMPTYPLAN,
-            Stream.of( l_object, l_object, new Object() ).map( CRawTerm::of ).collect( Collectors.toList() ),
+            Stream.of( l_object, l_object, l_object, new Object() ).map( CRawTerm::of ).collect( Collectors.toList() ),
             l_return
         );
 
