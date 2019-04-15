@@ -84,7 +84,7 @@ public final class COr extends IBaseAction
                        .anyMatch( ITerm::raw )
             )
         );
-        return Stream.of();
+        return Stream.empty();
     }
 
 }

@@ -83,7 +83,7 @@ public final class CCountTrue extends IBaseAction
             )
         );
 
-        return Stream.of();
+        return Stream.empty();
     }
 
 }

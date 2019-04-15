@@ -84,7 +84,7 @@ public final class CAnd extends IBaseAction
                        .allMatch( ITerm::raw )
             )
         );
-        return Stream.of();
+        return Stream.empty();
     }
 
 }

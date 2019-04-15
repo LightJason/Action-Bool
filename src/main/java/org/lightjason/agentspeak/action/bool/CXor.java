@@ -86,7 +86,7 @@ public final class CXor extends IBaseAction
                            .allMatch( ITerm::raw )
             )
         );
-        return Stream.of();
+        return Stream.empty();
     }
 
 }

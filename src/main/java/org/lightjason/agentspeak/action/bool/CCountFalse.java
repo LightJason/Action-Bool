@@ -84,7 +84,7 @@ public final class CCountFalse extends IBaseAction
             )
         );
 
-        return Stream.of();
+        return Stream.empty();
     }
 
 }

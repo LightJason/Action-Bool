@@ -88,7 +88,7 @@ public final class CAnyMatch extends IBaseAction
             )
         );
 
-        return Stream.of();
+        return Stream.empty();
     }
 
 }

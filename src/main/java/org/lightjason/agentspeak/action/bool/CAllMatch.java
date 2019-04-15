@@ -88,7 +88,7 @@ public final class CAllMatch extends IBaseAction
             )
         );
 
-        return Stream.of();
+        return Stream.empty();
     }
 
 }
