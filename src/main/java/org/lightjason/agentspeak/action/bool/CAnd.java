@@ -45,7 +45,7 @@ import java.util.stream.Stream;
  *
  * {@code R = .bool/and( Logical1, [Logical2, Logical3], Logical4 );}
  *
- * @see https://en.wikipedia.org/wiki/Logical_conjunction
+ * @see <a href="https://en.wikipedia.org/wiki/Logical_conjunction"></a>
  */
 public final class CAnd extends IBaseAction
 {

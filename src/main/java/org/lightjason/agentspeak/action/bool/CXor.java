@@ -45,7 +45,7 @@ import java.util.stream.Stream;
  *
  * {@code R = .bool/xor( Logical1, Logical2, [Logical3, Logical4] );}
  *
- * @see https://en.wikipedia.org/wiki/Exclusive_or
+ * @see <a href="https://en.wikipedia.org/wiki/Exclusive_or"></a>
  */
 public final class CXor extends IBaseAction
 {

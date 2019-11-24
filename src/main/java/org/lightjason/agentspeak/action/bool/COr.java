@@ -45,7 +45,7 @@ import java.util.stream.Stream;
  *
  * {@code R = .bool/or( Logical1, [Logical2, Logical3], Logical4 );}
  *
- * @see https://en.wikipedia.org/wiki/Logical_disjunction
+ * @see <a href="https://en.wikipedia.org/wiki/Logical_disjunction"></a>
  */
 public final class COr extends IBaseAction
 {
