@@ -23,24 +23,20 @@
 
 package org.lightjason.agentspeak.action.bool;
 
-import com.codepoetics.protonpack.StreamUtils;
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import com.tngtech.java.junit.dataprovider.UseDataProvider;
-import org.apache.commons.lang3.tuple.ImmutableTriple;
-import org.apache.commons.lang3.tuple.Triple;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.lightjason.agentspeak.action.IAction;
 import org.lightjason.agentspeak.language.CRawTerm;
 import org.lightjason.agentspeak.language.ITerm;
 import org.lightjason.agentspeak.language.execution.IContext;
 import org.lightjason.agentspeak.testing.IBaseTest;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +48,6 @@ import java.util.stream.Stream;
 /**
  * test for boolean actions
  */
-@RunWith( DataProviderRunner.class )
 public final class TestCActionBool extends IBaseTest
 {
 
@@ -60,93 +55,26 @@ public final class TestCActionBool extends IBaseTest
      * data provider generator
      * @return data
      */
-    @DataProvider
-    public static Object[] generate()
+    public static Stream<Arguments> generate()
     {
-        return Stream.concat(
+        return Stream.of(
+            Arguments.of( Stream.of( true, false, true, false, false, true ), CAllMatch.class, Stream.of( false ) ),
+            Arguments.of( Stream.of( true, false, true, false, false, true ), CAnyMatch.class, Stream.of( true ) ),
+            Arguments.of( Stream.of( true, false, true, false, false, true ), CAnd.class, Stream.of( false ) ),
+            Arguments.of( Stream.of( true, false, true, false, false, true ), COr.class, Stream.of( true ) ),
+            Arguments.of( Stream.of( true, false, true, false, false, true ), CXor.class, Stream.of( true ) ),
+            Arguments.of( Stream.of( true, false, true, false, false, true ), CNot.class, Stream.of( false, true, false, true, true, false ) ),
+            Arguments.of( Stream.of( true, false, true, false, false, true ), CCountTrue.class, Stream.of( 3L ) ),
+            Arguments.of( Stream.of( true, false, true, false, false, true ), CCountFalse.class, Stream.of( 3L ) ),
 
-            // -- first test-case ---
-            testcase(
-
-                // input data
-                Stream.of( true, false, true, false, false, true ),
-
-                // testing classes / test-methods
-                Stream.of(
-                    CAllMatch.class,
-                    CAnyMatch.class,
-                    CAnd.class,
-                    COr.class,
-                    CXor.class,
-                    CNot.class,
-                    CCountTrue.class,
-                    CCountFalse.class
-                ),
-
-                // results for each class test
-                Stream.of( false ),
-                Stream.of( true ),
-                Stream.of( false ),
-                Stream.of( true ),
-                Stream.of( true ),
-                Stream.of( false, true, false, true, true, false ),
-                Stream.of( 3L ),
-                Stream.of( 3L )
-            ),
-
-
-
-            // --- second test-case ---
-            testcase(
-
-                // input data
-                Stream.of( true, true ),
-
-                // testing classes / test-methods
-                Stream.of(
-                    CAllMatch.class,
-                    CAnyMatch.class,
-                    CAnd.class,
-                    COr.class,
-                    CXor.class,
-                    CNot.class,
-                    CCountTrue.class,
-                    CCountFalse.class
-
-                ),
-
-                // results for each class test
-                Stream.of( true ),
-                Stream.of( true ),
-                Stream.of( true ),
-                Stream.of( true ),
-                Stream.of( false ),
-                Stream.of( false, false ),
-                Stream.of( 2L ),
-                Stream.of( 0L )
-            )
-
-        ).toArray();
-    }
-
-    /**
-     * method to generate test-cases
-     *
-     * @param p_input input data
-     * @param p_classes matching test-classes / test-cases
-     * @param p_classresult result for each class
-     * @return test-object
-     */
-    @SafeVarargs
-    @SuppressWarnings( "varargs" )
-    private static Stream<Object> testcase( final Stream<Object> p_input, final Stream<Class<?>> p_classes, final Stream<Object>... p_classresult )
-    {
-        final List<ITerm> l_input = p_input.map( CRawTerm::of ).collect( Collectors.toList() );
-
-        return StreamUtils.zip(
-            p_classes,
-            Arrays.stream( p_classresult ),
-            ( i, j ) -> new ImmutableTriple<>( l_input, i, j )
+            Arguments.of( Stream.of( true, true ), CAllMatch.class, Stream.of( true ) ),
+            Arguments.of( Stream.of( true, true ), CAnyMatch.class, Stream.of( true ) ),
+            Arguments.of( Stream.of( true, true ), CAnd.class, Stream.of( true ) ),
+            Arguments.of( Stream.of( true, true ), COr.class, Stream.of( true ) ),
+            Arguments.of( Stream.of( true, true ), CXor.class, Stream.of( false ) ),
+            Arguments.of( Stream.of( true, true ), CNot.class, Stream.of( false, false ) ),
+            Arguments.of( Stream.of( true, true ), CCountTrue.class, Stream.of( 2L ) ),
+            Arguments.of( Stream.of( true, true ), CCountFalse.class, Stream.of( 0L ) )
         );
     }
 
@@ -154,27 +82,29 @@ public final class TestCActionBool extends IBaseTest
      * generic test-case
      *
      * @param p_input test-case data
+     * @param p_actionclass action class
+     * @param p_result expected result
      * @throws IllegalAccessException is thrwon on instantiation error
      * @throws InstantiationException is thrwon on instantiation error
      * @throws NoSuchMethodException is thrwon on instantiation error
-     * @throws InvocationTargetException is thrwon on instantiation error
+     * @throws InvocationTargetException is thrown on instantiation error
      */
-    @Test
-    @UseDataProvider( "generate" )
-    public void execute( final Triple<List<ITerm>, Class<? extends IAction>, Stream<Object>> p_input )
+    @ParameterizedTest
+    @MethodSource( "generate" )
+    public void execute( @Nonnull final Stream<Object> p_input, @Nonnull final Class<IAction> p_actionclass, final Stream<Object> p_result )
         throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException
     {
         final List<ITerm> l_return = new ArrayList<>();
 
-        p_input.getMiddle().getConstructor().newInstance().execute(
+        p_actionclass.getConstructor().newInstance().execute(
             false, IContext.EMPTYPLAN,
-            p_input.getLeft(),
+            p_input.map( CRawTerm::of ).collect( Collectors.toList() ),
             l_return
         );
 
-        Assert.assertArrayEquals(
+        Assertions.assertArrayEquals(
             l_return.stream().map( ITerm::raw ).toArray(),
-            p_input.getRight().toArray()
+            p_result.toArray()
         );
     }
 
@@ -192,9 +122,9 @@ public final class TestCActionBool extends IBaseTest
             l_return
         );
 
-        Assert.assertEquals( 2, l_return.size() );
-        Assert.assertTrue( l_return.get( 0 ).<Boolean>raw() );
-        Assert.assertFalse( l_return.get( 1 ).<Boolean>raw() );
+        Assertions.assertEquals( 2, l_return.size() );
+        Assertions.assertTrue( l_return.get( 0 ).<Boolean>raw() );
+        Assertions.assertFalse( l_return.get( 1 ).<Boolean>raw() );
 
 
         final List<Integer> l_list1 = IntStream.range( 0, 5 ).boxed().collect( Collectors.toList() );
@@ -206,8 +136,8 @@ public final class TestCActionBool extends IBaseTest
             l_return
         );
 
-        Assert.assertEquals( 3, l_return.size() );
-        Assert.assertTrue( l_return.get( 2 ).<Boolean>raw() );
+        Assertions.assertEquals( 3, l_return.size() );
+        Assertions.assertTrue( l_return.get( 2 ).<Boolean>raw() );
 
 
         final Map<Integer, Integer> l_map1 = new HashMap<>();
@@ -221,8 +151,8 @@ public final class TestCActionBool extends IBaseTest
             l_return
         );
 
-        Assert.assertEquals( 4, l_return.size() );
-        Assert.assertFalse( l_return.get( 3 ).<Boolean>raw() );
+        Assertions.assertEquals( 4, l_return.size() );
+        Assertions.assertFalse( l_return.get( 3 ).<Boolean>raw() );
     }
 
     /**
@@ -240,9 +170,9 @@ public final class TestCActionBool extends IBaseTest
             l_return
         );
 
-        Assert.assertEquals( 2, l_return.size() );
-        Assert.assertFalse( l_return.get( 0 ).<Boolean>raw() );
-        Assert.assertTrue( l_return.get( 1 ).<Boolean>raw() );
+        Assertions.assertEquals( 2, l_return.size() );
+        Assertions.assertFalse( l_return.get( 0 ).<Boolean>raw() );
+        Assertions.assertTrue( l_return.get( 1 ).<Boolean>raw() );
     }
 
 }
